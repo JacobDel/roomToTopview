@@ -14,7 +14,7 @@ from Topview.RoomShape import turtleImage
 # GraphCalculations.getMaximaCoords(points,3)
 
 # main
-pano = np.asarray(Image.open(sys.argv[1]))
+pano = np.asarray(Image.open("testFotos/pano.jpg"))
 # cv2.imshow(pano.astype('uint8'),'org foto')
 edges = RoomEdges.getDistance.getRoomCoords(pano) #returns 4 angles
 coords = Topview.RoomShape.getCoords(edges,len(pano[0]))
