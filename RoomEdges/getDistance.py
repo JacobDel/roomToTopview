@@ -9,7 +9,7 @@ import GraphCalculations
 wallLines = []  # contains all the corner lines in a room (no roof lines!), format: x,y1,y2
 
 def getRoomCoords(panorama):  # ONLY VERTICAL LINES! the variable should be a line detection image of a depth image
-    steps = 60  # amount of steps we want
+    steps = 100  # amount of steps we want
     edgesMax = 4
 
     global wallLines
