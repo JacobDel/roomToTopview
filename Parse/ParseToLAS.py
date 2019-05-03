@@ -9,22 +9,34 @@ import shutil
 def writeToLAS(depth):
     header = laspy.header.Header(point_format=2)
     pt = laspy.file.File("output.las", mode="w", header=header)
-    degreePerPixelY = (float)(45 / (float)(len(depth[0])))  # pixel location to degree calculation
+    degreePerPixelY = (float)(60 / (float)(len(depth[0])))  # pixel location to degree calculation
     degreePerPixelX = (float)(360 / (float)(len(depth)))
 
     # convert all the points
-    ptX= np.array([])
-    ptY=np.array([])
-    ptZ=np.array([])
-    ptInt = np.array([])
+    size = len(depth)*len(depth[0])+1
+    ptX= np.zeros(size)
+    ptY=np.zeros(size)
+    ptZ=np.zeros(size)
+    ptInt = np.zeros(size)
     for x in range(0, len(depth[0])):
         for y in range(0, len(depth)):
-            alphaX = x * degreePerPixelX * math.pi / 180  # calculate the "angle" in the panorama, python math works in radians..
-            alphaY = y * degreePerPixelY * math.pi / 180  # calculate the "angle" in the panorama, python math works in radians..
-            ptX = np.append(ptX,depth[y][x] * math.cos(alphaY) * math.sin(alphaX))
-            ptY = np.append(ptY, math.sin(alphaY) * depth[y][x])
-            ptZ = np.append(ptZ,depth[y][x] * math.cos(alphaY) * math.cos(alphaX))
-            ptInt = np.append(ptInt,depth[y][x])
+            alphaX = (float)(x * degreePerPixelX * math.pi / 180)  # calculate the "angle" in the panorama, python math works in radians..
+            alphaY = (float)(y * degreePerPixelY * math.pi / 180)  # calculate the "angle" in the panorama, python math works in radians..
+            index = x+y*len(depth[0])
+            newX = depth[y][x] * (float)(math.cos(alphaY)) * (float)(math.cos(alphaX))
+            newY = (float)(math.sin(alphaY)) * depth[y][x]
+            newZ = depth[y][x] * (float)(math.cos(alphaY)) * (float)(math.sin(alphaX))
+            ptZ[index] = newZ
+            ptY[index] = newX
+            ptX[index] = newY
+            ptInt[index] = x*y
+            # print("x is ")
+            # print(newX)
+            # print("y is ")
+            # print(newY)
+            # print("z is ")
+            # print(newZ)
+            # print("---------------")
     pt.header.offset = [0,0,0]
     pt.header.scale = [0.001, 0.001, 0.001]
     pt.x = ptZ
