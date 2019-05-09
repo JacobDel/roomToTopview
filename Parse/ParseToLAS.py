@@ -6,7 +6,7 @@ import os
 import math
 import shutil
 
-def writeToLAS(depth):
+def writeToLAS(depth,colorImage):
     header = laspy.header.Header(point_format=2)
     pt = laspy.file.File("output.las", mode="w", header=header)
     degreePerPixelY = (float)(60 / (float)(len(depth[0])))  # pixel location to degree calculation
@@ -17,6 +17,9 @@ def writeToLAS(depth):
     ptX= np.zeros(size)
     ptY=np.zeros(size)
     ptZ=np.zeros(size)
+    ptR = np.zeros(size)
+    ptG = np.zeros(size)
+    ptB = np.zeros(size)
     ptInt = np.zeros(size)
     for x in range(0, len(depth[0])):
         for y in range(0, len(depth)):
@@ -30,6 +33,9 @@ def writeToLAS(depth):
             ptY[index] = newX
             ptX[index] = newY
             ptInt[index] = x*y
+            # ptR =
+            # ptG =
+            # ptB =
             # print("x is ")
             # print(newX)
             # print("y is ")
@@ -44,6 +50,12 @@ def writeToLAS(depth):
     pt.z = ptX
     pt.intensity = ptInt
     pt.Intensity = ptInt
+    pt.red= ptR
+    pt.Red = ptR
+    pt.green = ptG
+    pt.Green = ptG
+    pt.blue = ptB
+    pt.Blue = ptB
     pt.close()
 
     potreePath = os.getcwd() + "\potreeFolder"

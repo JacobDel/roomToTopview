@@ -81,9 +81,8 @@ def setRoomCoords(newWallLines):
     global wallLines
     wallLines = newWallLines
 
-
 # by having access to the room coords we should be able to determine the position of objects in a room, as the distance between walls is lineair
-def getCoordObject(objectLocation):  # parameter: [x1,x2,y1,y2]
+def getDistanceToWalls(objectLocation):  # parameter: [x1,x2,y1,y2]
     global wallLines
     startX = (objectLocation[0]+objectLocation[1])/2
     if wallLines is None:
@@ -99,14 +98,3 @@ def getCoordObject(objectLocation):  # parameter: [x1,x2,y1,y2]
             else:
                 leftWall = len(wallLines)-1
     return leftWall,rightWall,startX
-
-
-    # xValues = []
-    # index = 0
-    # for lines in wallLines:
-    #     np.append(xValues[0], abs(lines[0] - ((objectLocation[0] + objectLocation[1]) / 2)))
-    #     np.append(xValues[1], index)
-    #     index = index + 1
-    # np.sort(xValues[0])
-    # lineIndex1 = xValues[0]
-    # lineIndex2 = xValues[1]
