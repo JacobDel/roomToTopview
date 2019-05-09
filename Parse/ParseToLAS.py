@@ -5,8 +5,12 @@ import laspy
 import os
 import math
 import shutil
+import numpy as np
+import cv2
 
-def writeToLAS(depth,colorImage):
+def writeToLAS(orgDepth):
+    depth = np.copy(orgDepth)
+    depth = cv2.blur(depth, (5,5)) #blur the image for a smoother transition
     header = laspy.header.Header(point_format=2)
     pt = laspy.file.File("output.las", mode="w", header=header)
     degreePerPixelY = (float)(60 / (float)(len(depth[0])))  # pixel location to degree calculation
@@ -50,12 +54,12 @@ def writeToLAS(depth,colorImage):
     pt.z = ptX
     pt.intensity = ptInt
     pt.Intensity = ptInt
-    pt.red= ptR
-    pt.Red = ptR
-    pt.green = ptG
-    pt.Green = ptG
-    pt.blue = ptB
-    pt.Blue = ptB
+    # pt.red= ptR
+    # pt.Red = ptR
+    # pt.green = ptG
+    # pt.Green = ptG
+    # pt.blue = ptB
+    # pt.Blue = ptB
     pt.close()
 
     potreePath = os.getcwd() + "\potreeFolder"

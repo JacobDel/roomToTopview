@@ -17,11 +17,11 @@ import Parse.ParseToLAS as parse
 # main
 pano = np.asarray(Image.open("testFotos/pano.jpg"))
 # cv2.imshow(pano.astype('uint8'),'org foto')
-# parse.writeToLAS(pano)
+parse.writeToLAS(pano)
 edges = RoomEdges.getDistance.getRoomCoords(pano) #returns 4 angles
 coords = Topview.RoomShape.getCoords(edges,len(pano[0]))
 
-turtleImage(coords,Topview.RoomShape.getRandomColor())
+turtleImage(coords,Topview.RoomShape.getRandomColor(),2)
 while (True):
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
